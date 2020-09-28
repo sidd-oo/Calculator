@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
 *{
     margin: 0px;
 }
@@ -33,6 +35,8 @@
     padding:5px;
     font-weight:initial;
     border-radius: 2%;
+    font-family: Orbitron;
+    font-size: 50px;;
 }
 
 
