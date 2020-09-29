@@ -49,13 +49,12 @@ buttons.forEach((buttons)=>{
         if(e.target.classList.value === 'operand'){           // OPERANDS------------------
             handleOperands(e);
         }else if (e.target.classList.value === 'operator'){   // OPERATOR------------------
-            operator = e.target.value;
-            console.log("OPERATOR: " + operator);
+            handleOperator(e);
         }else if(e.target.classList.value === 'equal'){       // EQUALS--------------------
             handleEquals();
-        }else if(e.target.classList.value === 'clear'){      // CLEAR-----------------------
+        }else if(e.target.classList.value === 'clear'){       // CLEAR-----------------------
             handleClear();
-        }else if(e.target.classList.value === 'sign'){       // SIGN------------------------
+        }else if(e.target.classList.value === 'sign'){        // SIGN------------------------
             handleSign();
         }else if(e.target.classList.value === "percentage"){  //PERCENTAGE-------------------
             handlePercentage();
@@ -63,9 +62,54 @@ buttons.forEach((buttons)=>{
             handleDecimal();
         }                                                                
 
-        displaySelector.innerHTML = displayStr;
+        displaySelector.innerHTML = displayStr.slice(0,9);
     })
 })
+
+function handleOperands(e){
+    displayStr = displayStr + e.target.value;
+            if(operator === ""){
+                if(operandOne.length < 9){
+                    operandOne += e.target.value;
+                }else{
+                    operandOne = operandOne.slice(0,9);
+                }
+                console.log("operator ONE: " + operandOne);
+            }else if( operator !== ""){
+                if(operandTwo.length < 9){
+                    operandTwo += e.target.value;
+                }else{
+                    operandTwo = operandTwo.slice(0,9);
+                }
+                console.log("OPERAND TWO: " + operandTwo);
+            }
+}
+
+function handleOperator(e){
+        operator = e.target.value;
+        console.log("OPERATOR: " + operator);
+        displayStr = "";
+}
+
+function handleClear(){
+        operandOne = "";
+        operandTwo = "";
+        operator = "";
+        displayStr = "";
+    console.log("Screen clear");
+}
+
+function handleEquals(){
+    if(operandTwo !== "" ){
+        result = operate(operator, operandOne, operandTwo);
+        displayStr = (Number.isInteger(result)) ? String(result) : String(result.toFixed(2));
+        console.log("Equals click: now answer prompted: [" + displayStr + "] result: (" + result+")");
+        operandOne = "";
+        operandTwo = "";
+        operator = "";
+    }
+}
+
 
 function handleDecimal(){
     if(operator === ""){
@@ -79,7 +123,6 @@ function handleDecimal(){
         displayStr += ".";
     }
 }
-
 
 function handlePercentage(){
     if(operator === ""){
@@ -106,52 +149,3 @@ function handleSign(){
 }
 
 
-function handleClear(){
-    if(operator === ""){
-        operandOne = "";
-    }else if(operator !== ""){
-        operandTwo = "";
-    }else if(result !== ""){
-        result = "";
-    }else if(operator !== ""){
-        operandOne = "";
-        operator = "";
-    }
-    displayStr = "";
-    console.log("Screen clear");
-}
-
-function handleEquals(){
-    if(operator === "" || operandTwo === ""){
-        result = operandOne;
-    }else if(operandOne === ""){
-        result = 0;
-    }else{
-        result = operate(operator, operandOne, operandTwo);
-    }
-    displayStr = (Number.isInteger(result)) ? String(result) : String(result.toFixed(2));
-    console.log("Equals click: now answer prompted: [" + displayStr + "] result: (" + result+")");
-    operandOne = "";
-    operandTwo = "";
-    operator = "";
-}
-
-function handleOperands(e){
-    displayStr = displayStr + e.target.value;
-            if(operator === "" ){
-                if(operandOne.length < 9){
-                    operandOne += e.target.value;
-                }else{
-                    operandOne = operandOne.slice(0,9);
-                }
-                console.log("operator ONE: " + operandOne);
-            }else if( operator !== ""){
-                displayStr = "";
-                if(operandTwo.length < 9){
-                    operandTwo += e.target.value;
-                }else{
-                    operandTwo = operandTwo.slice(0,9);
-                }
-                console.log("OPERAND TWO: " + operandTwo);
-            }
-}
