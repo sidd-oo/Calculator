@@ -4,7 +4,7 @@ let operator  = "";
 let result = 0;
 let tempResult = 0;
 let displayStr = "";
-let precededSign = ""
+
 
 function add(operandOne, operandTwo){
     return +operandOne + +operandTwo;
@@ -22,7 +22,7 @@ function divide(operandOne, operandTwo){
     if(operandTwo != 0){
         return +operandOne / +operandTwo;
     }else{
-        return "ERROR : Division not possible";
+        return "ERROR";
     }
 }
 
@@ -102,7 +102,7 @@ function handleClear(){
 function handleEquals(){
     if(operandTwo !== ""){
         result = operate(operator, operandOne, operandTwo);
-        displayStr = (Number.isInteger(result)) ? result : (result).toFixed(2);
+        displayStr = (Number.isInteger(result) || typeof result === "string") ? result :(result).toFixed(2);
         console.log("Equals click: now answer prompted: [" + displayStr + "] result: (" + result+")");
         operandOne = "";
         operandTwo = "";
@@ -148,4 +148,4 @@ function handleSign(){
     }
 }
 
-
+ 
