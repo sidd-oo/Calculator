@@ -7,20 +7,20 @@ let displayStr = "";
 let precededSign = ""
 
 function add(operandOne, operandTwo){
-    return operandOne + operandTwo;
+    return +operandOne + +operandTwo;
 }
 
 function subtract(operandOne, operandTwo){
-    return operandOne - operandTwo;
+    return +operandOne - +operandTwo;
 }
 
 function multiply(operandOne, operandTwo){
-    return operandOne * operandTwo;
+    return +operandOne * +operandTwo;
 }
 
 function divide(operandOne, operandTwo){
     if(operandTwo != 0){
-        return operandOne / operandTwo;
+        return +operandOne / +operandTwo;
     }else{
         return "ERROR : Division not possible";
     }
@@ -62,7 +62,7 @@ buttons.forEach((buttons)=>{
             handleDecimal();
         }                                                                
 
-        displaySelector.innerHTML = displayStr.slice(0,9);
+        displaySelector.innerHTML = String(displayStr).slice(0,9);
     })
 })
 
@@ -100,9 +100,9 @@ function handleClear(){
 }
 
 function handleEquals(){
-    if(operandTwo !== "" ){
+    if(operandTwo !== ""){
         result = operate(operator, operandOne, operandTwo);
-        displayStr = (Number.isInteger(result)) ? String(result) : String(result.toFixed(2));
+        displayStr = (Number.isInteger(result)) ? result : (result).toFixed(2);
         console.log("Equals click: now answer prompted: [" + displayStr + "] result: (" + result+")");
         operandOne = "";
         operandTwo = "";
