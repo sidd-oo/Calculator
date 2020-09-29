@@ -1,9 +1,10 @@
 let operandOne = "";
 let operandTwo = "";
-let operator ;
+let operator  = "";
 let result = 0;
 let tempResult = 0;
-let displayStr = "0";
+let displayStr = "";
+let precededSign = ""
 
 function add(operandOne, operandTwo){
     return operandOne + operandTwo;
@@ -28,14 +29,13 @@ function divide(operandOne, operandTwo){
 function operate(operator, operandOne, operandTwo){
     const displaySelector = document.querySelector('#display');
     if(operator == '+'){
-        result = add(operandOne, operandTwo);
-        // displaySelcetor.innerHTML = result;
+        return add(operandOne, operandTwo);
     }else if(operator == '-'){
-        result = subtract(operandOne, operandTwo);
+        return subtract(operandOne, operandTwo);
     }else if(operator == '*'){
-        result = multiply(operandOne, operandTwo);
+        return multiply(operandOne, operandTwo);
     }else if(operator == '/'){
-        result = divide(operandOne, operandTwo);
+        return divide(operandOne, operandTwo);
     }
 }
 
@@ -47,34 +47,111 @@ buttons.forEach((buttons)=>{
     buttons.addEventListener('click',function(e){
         
         if(e.target.classList.value === 'operand'){           // OPERANDS------------------
-            displayStr = displayStr + e.target.value;
-            if(operator === undefined ){
+            handleOperands(e);
+        }else if (e.target.classList.value === 'operator'){   // OPERATOR------------------
+            operator = e.target.value;
+            console.log("OPERATOR: " + operator);
+        }else if(e.target.classList.value === 'equal'){       // EQUALS--------------------
+            handleEquals();
+        }else if(e.target.classList.value === 'clear'){      // CLEAR-----------------------
+            handleClear();
+        }else if(e.target.classList.value === 'sign'){       // SIGN------------------------
+            handleSign();
+        }else if(e.target.classList.value === "percentage"){  //PERCENTAGE-------------------
+            handlePercentage();
+        }else if(e.target.classList.value === "decimal"){     // DECIMAL----------------------
+            handleDecimal();
+        }                                                                
+
+        displaySelector.innerHTML = displayStr;
+    })
+})
+
+function handleDecimal(){
+    if(operator === ""){
+        operandOne  = operandOne + ".";
+        displayStr += ".";
+    }else if(operator !== "" && operandTwo !== ""){
+        displayStr = displayStr + ".";
+    }else if(operator !== "" && operandOne !== ""){
+        console.log("operator 2 decimal check")
+        operandTwo = operandTwo + ".";
+        displayStr += ".";
+    }
+}
+
+
+function handlePercentage(){
+    if(operator === ""){
+        operandOne /= 100;
+        displayStr = operandOne + "";
+        console.log("Percentage functionality applied : " + operandOne);
+    }else{
+        operandTwo /= 100;
+        displayStr = operandTwo + "";
+        console.log("Percentage functionality applied : " + operandTwo);
+    }
+}
+
+function handleSign(){
+    if(operator === ""){
+        operandOne *= -1;
+        displayStr = operandOne
+        console.log("OperandOne sign changed: " + operandOne);
+    }else{
+        operandTwo *= -1;
+        displayStr = operandTwo;
+        console.log("operandTwo sign changed: " + operandTwo);
+    }
+}
+
+
+function handleClear(){
+    if(operator === ""){
+        operandOne = "";
+    }else if(operator !== ""){
+        operandTwo = "";
+    }else if(result !== ""){
+        result = "";
+    }else if(operator !== ""){
+        operandOne = "";
+        operator = "";
+    }
+    displayStr = "";
+    console.log("Screen clear");
+}
+
+function handleEquals(){
+    if(operator === "" || operandTwo === ""){
+        result = operandOne;
+    }else if(operandOne === ""){
+        result = 0;
+    }else{
+        result = operate(operator, operandOne, operandTwo);
+    }
+    displayStr = (Number.isInteger(result)) ? String(result) : String(result.toFixed(2));
+    console.log("Equals click: now answer prompted: [" + displayStr + "] result: (" + result+")");
+    operandOne = "";
+    operandTwo = "";
+    operator = "";
+}
+
+function handleOperands(e){
+    displayStr = displayStr + e.target.value;
+            if(operator === "" ){
                 if(operandOne.length < 9){
                     operandOne += e.target.value;
                 }else{
                     operandOne = operandOne.slice(0,9);
                 }
                 console.log("operator ONE: " + operandOne);
-            }else if( operator !== undefined){
+            }else if( operator !== ""){
                 displayStr = "";
                 if(operandTwo.length < 9){
                     operandTwo += e.target.value;
                 }else{
-                    operandOne = operandOne.slice(0,9);
+                    operandTwo = operandTwo.slice(0,9);
                 }
-                console.log(operandTwo);
+                console.log("OPERAND TWO: " + operandTwo);
             }
-        }else if (e.target.classList.value === 'operator'){   // OPERATOR------------------
-            operator = e.target.value;
-            console.log("OPERATOR" + operator);
-        }else if(e.target.classList.value === 'equal'){       // EQUALS--------------------
-            console.log(e.target.classList.value);
-            operate(operator, operandOne, operandTwo);
-        }
-
-        displaySelector.innerHTML = displayStr.slice(0,9);
-    })
-})
-
-
-
+}
